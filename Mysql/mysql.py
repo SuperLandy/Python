@@ -6,7 +6,6 @@ db = pymysql.connect('192.168.91.19', 'root', 'root', 'xuexi')
 cur = db.cursor()
 
 
-
 def add():
     # 增加数据
     updat_sql = '''
