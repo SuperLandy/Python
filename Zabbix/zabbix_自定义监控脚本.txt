@@ -1,14 +1,17 @@
-1.关闭agent的selinux ： setenforce 0
+﻿1.关闭agent的selinux ： setenforce 0
 
 2.修改sudoers：添加免密码运行权限 zabbix  ALL=(ALL)       NOPASSWD:ALL
 
-3.修改agent：sh UserParameter=mysql_threads, sudo  /bin/bash /root/scripts/mysql_threads.sh
+3.修改agent：
+	shell脚本
+	sh UserParameter=mysql_threads,    sudo             /bin/bash     /root/scripts/mysql_threads.sh
+               (键值与服务端web上的key配置一样) （sudo命令） （sh目录）      脚本目录
 
-               (键值与服务端web上的key配置一样) （sudo命令） （sh目录）   脚本目录
-              python  UserParameter=mysql_threads, sudo  /usr/bin/python  /root/scripts/get.py
+               python脚本
+               python  UserParameter=mysql_threads, sudo  /usr/bin/python  /root/scripts/get_mysql_threads
 
 4.重启zabbix-agent服务
 
-5.可在server上使用zabbix_get -s ip -k keyname 测试
+5.可在server上使用zabbix_get -s <agent_ip> -k <keyname> 测试
 
 6.脚本需要有执行权限
