@@ -5,8 +5,8 @@ start_Time = int(time.time())
 ip_True = open('ip_True.txt','w+')
 ip_False = open('ip_False.txt','w+')
 IPhost = []
-IPbegin = input(u'请输入起始查询IP： ')
-IPend = input(u'请输入终止查询IP： ')
+IPbegin = input(u'start_IP： ')
+IPend = input(u'stop_IP： ')
 IP1 =  IPbegin.split('.')[0]
 IP2 =  IPbegin.split('.')[1]
 IP3 =  IPbegin.split('.')[2]
@@ -30,5 +30,5 @@ for i in range(int(IP4)-1,int(IPend_last)):
 ip_True.close()
 ip_False.close()
 end_Time = int(time.time())
-print ("time(秒)：",end_Time - start_Time,"s")
-print ("ping通的ip数：",count_True,"   ping不通的ip数：",count_False)
+print ("time(s)：",end_Time - start_Time,"s")
+print ("ping success ip count：",count_True,"   ping faild ip count：",count_False)
