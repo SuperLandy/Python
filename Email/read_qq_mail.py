@@ -5,6 +5,7 @@ from email.parser import Parser
 from email.header import decode_header
 from email.utils import parseaddr
 
+
 def guess_charset(msg):
     '''获取操蛋的编码'''
     charset = msg.get_charset()
@@ -15,6 +16,7 @@ def guess_charset(msg):
             charset = content_type[pos + 8:].strip()
     return charset
 
+
 def decode_str(s):
     '''获取到就开始解码'''
     value, charset = decode_header(s)[0]
@@ -22,13 +24,14 @@ def decode_str(s):
         value = value.decode(charset)
     return value
 
+
 def print_info(msg, indent=0):
     '''格式化输出邮件内容'''
     if indent == 0:
         for header in ['From', 'To', 'Subject']:
             value = msg.get(header, '')
             if value:
-                if header=='Subject':
+                if header == 'Subject':
                     value = decode_str(value)
                 else:
                     hdr, addr = parseaddr(value)
@@ -41,12 +44,12 @@ def print_info(msg, indent=0):
             print_info(part, indent + 1)
     else:
         content_type = msg.get_content_type()
-        if content_type=='text/plain' or content_type=='text/html':
+        if content_type == 'text/plain' or content_type == 'text/html':
             content = msg.get_payload(decode=True)
             charset = guess_charset(msg)
             if charset:
                 content = content.decode(charset)
-            print('Text: %s'%(content))
+            print('Text: %s' % (content))
         else:
             print("有附件！！")
 
@@ -61,7 +64,7 @@ if __name__ == '__main__':
     server.pass_(password)
     resp, mail, octets = server.list()
     mails = len(mail)
-    resp, lines, octets = server.retr(mails -0 )  # -1是第二封邮件， -2第三封邮件
+    resp, lines, octets = server.retr(mails - 0)  # -1是第二封邮件， -2第三封邮件
     msg_content = b'\n'.join(lines).decode('utf-8')
     msg = Parser().parsestr(msg_content)
     print_info(msg)
