@@ -14,6 +14,6 @@ def get_port_status(ip,port):
         server.close()
 
 if __name__ == '__main__':
-    ip = '120.78.87.162'
+    ip = '8.8.8.8'
     for port in range(20,90):
         get_port_status(ip,port)
