@@ -48,8 +48,8 @@ def Install_Zabbix_Agent(conf):
 
 if __name__ == '__main__':
     if Check_System_Version() == 0 and Check_Software_Installation() == 0:
-        hostname = input("Please enter hostname =>")                                                                                                 
-        server_ip = input("Please enter zabbix server ip =>")
+        hostname = raw_input("Please enter hostname =>")
+        server_ip = raw_input("Please enter zabbix server ip =>")
         conf = '''PidFile=/var/run/zabbix/zabbix_agentd.pid
         LogFile=/var/log/zabbix/zabbix_agentd.log
         LogFileSize=0
