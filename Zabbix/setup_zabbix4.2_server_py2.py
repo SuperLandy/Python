@@ -98,7 +98,7 @@ def get_ip():
 if __name__ == '__main__':
     try:
         install()
-		get_ip()
+        get_ip()
     except Exception as e:
         print e
     
