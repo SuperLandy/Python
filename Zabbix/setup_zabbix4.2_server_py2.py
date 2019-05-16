@@ -92,8 +92,12 @@ def install():
     os.system('systemctl enable zabbix-server zabbix-agent httpd')
 def get_ip():
     #获取网卡IP信息
-    ip_info = str(os.popen("ip a|awk 'NR==9''{print$2}'").read())
-    ipadd =  ip_info[0:-3]
+        try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(('1.1.1.1', 80))
+        ipadd = s.getsockname()[0]
+    finally:
+        s.close()
     print '请使用浏览器打开 \033[1;31;40m http://%szabbix \033[0m 进一步配置zabbix web'%ipadd
 if __name__ == '__main__':
     try:
