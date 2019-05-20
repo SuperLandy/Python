@@ -7,7 +7,7 @@ os.system('yum -y --enablerepo=epel install python-pip')
 os.system('pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple')
 #安装pymysql
 os.system('pip install pymysql -i https://pypi.tuna.tsinghua.edu.cn/simple')
-os.system('yum clean all')
+os.system('rm -rf /var/cache/yum')
 
 try:
     import pymysql
