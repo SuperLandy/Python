@@ -3,7 +3,7 @@
 import os,socket
 #安装pip插件
 os.system('yum -y install epel-release')
-os.system('yum -y install python-pip')
+os.system('yum -y --enablerepo=epel install python-pip')
 os.system('pip install --upgrade pip')
 #安装pymysql
 os.system('pip install pymysql')
