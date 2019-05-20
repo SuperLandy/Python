@@ -97,7 +97,7 @@ def get_ip():
         ip = s.getsockname()[0]
     finally:
         s.close()
-    print('请使用浏览器打开 \033[1;31;40m http://%szabbix \033[0m 进一步配置zabbix web'%ip)
+    print('请使用浏览器打开 \033[1;31;40m http://%s/zabbix \033[0m 进一步配置zabbix web'%ip)
 if __name__ == '__main__':
     try:
         install()
