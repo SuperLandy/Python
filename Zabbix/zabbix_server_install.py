@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #encoding:utf-8
 import os,socket
 #安装pip插件
@@ -9,7 +9,10 @@ os.system('pip install --upgrade pip')
 os.system('pip install pymysql')
 os.system('yum clean all')
 
-import pymysql,time
+try:
+    import pymysql
+except Exception as err:
+    print err
 
 # 关闭selinux
 Close_selinux = 'sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config'
@@ -62,7 +65,7 @@ def install():
     os.system(Initialization_passwd)
     print 'mysql账号密码是：\n \033[1;31;40m root root \033[0m ''\n'
     print 'zabbix库账号密码是：\n \033[1;31;40m zabbix iamadmin \033[0m ''\n 请牢记此密码'
-    time.sleep(5)
+ 
 
     # 连接mysql数据库
     DB_con = pymysql.connect('127.0.0.1', 'root', 'root', 'mysql')
