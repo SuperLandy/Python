@@ -33,7 +33,7 @@ Note_off = 'sed -i "s/# php_value/php_value/g" /etc/httpd/conf.d/zabbix.conf'
 Install_rpm = 'rpm -Uvh https://repo.zabbix.com/zabbix/4.2/rhel/7/x86_64/zabbix-release-4.2-1.el7.noarch.rpm'
 
 #安装zabbix依赖组件
-Install_zabbix = 'yum install -y zabbix-server-mysql zabbix-web-mysql mariadb-server'
+Install_zabbix = 'yum install --enablerepo=zabbix -y zabbix-server-mysql zabbix-agent zabbix-web-mysql mariadb-server'
 
 #初始化mysql密码,如修改需同时修改 DB_con 以及print密码
 Initialization_passwd = 'mysqladmin -u root password root'
