@@ -93,7 +93,7 @@ def install():
     os.system('systemctl start zabbix-server zabbix-agent httpd')
     os.system('systemctl enable zabbix-server zabbix-agent httpd')
 def get_ip():
-    '''发起udp协议进程，获取本机 IP'''
+    '''获取本机通讯IP地址'''
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(('1.1.1.1', 80))
