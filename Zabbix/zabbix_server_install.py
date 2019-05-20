@@ -27,7 +27,7 @@ Note_off = 'sed -i "s/# php_value/php_value/g" /etc/httpd/conf.d/zabbix.conf'
 
 
 #安装rpm包
-Install_rpm = 'rpm -i https://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm'
+Install_rpm = 'rpm -Uvh https://repo.zabbix.com/zabbix/4.2/rhel/7/x86_64/zabbix-release-4.2-1.el7.noarch.rpm'
 
 #安装zabbix依赖组件
 Install_zabbix = 'yum install -y zabbix-server-mysql zabbix-web-mysql mariadb-server'
@@ -60,8 +60,8 @@ def install():
     # print('设置mysql...')
     os.system('systemctl start mariadb')
     os.system(Initialization_passwd)
-    # print('mysql账号密码是：\n \033[1;31;40m root root \033[0m ''\n')
-    # print('zabbix库账号密码是：\n \033[1;31;40m zabbix iamadmin \033[0m ''\n 请牢记此密码')
+    print 'mysql账号密码是：\n \033[1;31;40m root root \033[0m ''\n'
+    print 'zabbix库账号密码是：\n \033[1;31;40m zabbix iamadmin \033[0m ''\n 请牢记此密码'
     time.sleep(5)
 
     # 连接mysql数据库
@@ -97,10 +97,10 @@ def get_ip():
         ip = s.getsockname()[0]
     finally:
         s.close()
-    print('请使用浏览器打开 \033[1;31;40m http://%s/zabbix \033[0m 进一步配置zabbix web'%ip)
+    print '请使用浏览器打开 \033[1;31;40m http://%s/zabbix \033[0m 进一步配置zabbix web'%ip
 if __name__ == '__main__':
     try:
         install()
-    except Exception as e:
-        print(e)
+    except Exception as err:
+        print err
     get_ip()
