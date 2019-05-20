@@ -4,9 +4,9 @@ import os,socket
 #安装pip插件
 os.system('yum -y install epel-release')
 os.system('yum -y --enablerepo=epel install python-pip')
-os.system('pip install --upgrade pip')
+os.system('pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple pyspider')
 #安装pymysql
-os.system('pip install pymysql')
+os.system('pip install pymysql -i https://pypi.tuna.tsinghua.edu.cn/simple pyspider')
 os.system('yum clean all')
 
 try:
