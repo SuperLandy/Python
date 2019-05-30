@@ -2,7 +2,7 @@
 
 """
 Created by Zzq_OPS.
-Env:         python3.
+Env:         python2.
 File:        install zabiix-agent4.0.
 User:        zzq.
 Create Date:    2019-04-09.
