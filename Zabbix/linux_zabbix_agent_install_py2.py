@@ -2,8 +2,8 @@
 
 """
 Created by Zzq_OPS.
-Env:         python3.
-File:        install zabiix-agent4.0.
+Env:         python2.
+File:        install zabiix-agent4.x.
 User:        zzq.
 Create Date:    2019-04-09.
  """
@@ -43,7 +43,7 @@ def Install_Zabbix_Agent(conf):
         os.system('systemctl start zabbix-agent')
         print 'zabbix agent install success, Please login to zabbix-server for follow-up action \n Good bye!'
     elif Check_Software_Installation() == 0:
-        print 'install faild'
+        print 'install faild, check install message log'
         exit(1)
 
 if __name__ == '__main__':

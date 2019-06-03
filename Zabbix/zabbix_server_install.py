@@ -1,15 +1,18 @@
-#!/usr/bin/python3
+#!/usr/bin/python
 #encoding:utf-8
 import os,socket
 #安装pip插件
 os.system('yum -y install epel-release')
 os.system('yum -y --enablerepo=epel install python-pip')
-os.system('pip install --upgrade pip')
+os.system('pip install --upgrade pip -i https://pypi.tuna.tsinghua.edu.cn/simple')
 #安装pymysql
-os.system('pip install pymysql')
-os.system('yum clean all')
+os.system('pip install pymysql -i https://pypi.tuna.tsinghua.edu.cn/simple')
+os.system('rm -rf /var/cache/yum')
 
-import pymysql,time
+try:
+    import pymysql
+except Exception as err:
+    print err
 
 # 关闭selinux
 Close_selinux = 'sed -i "s/SELINUX=enforcing/SELINUX=disabled/g" /etc/selinux/config'
@@ -27,10 +30,10 @@ Note_off = 'sed -i "s/# php_value/php_value/g" /etc/httpd/conf.d/zabbix.conf'
 
 
 #安装rpm包
-Install_rpm = 'rpm -i https://repo.zabbix.com/zabbix/3.4/rhel/7/x86_64/zabbix-release-3.4-2.el7.noarch.rpm'
+Install_rpm = 'rpm -Uvh https://repo.zabbix.com/zabbix/4.2/rhel/7/x86_64/zabbix-release-4.2-1.el7.noarch.rpm'
 
 #安装zabbix依赖组件
-Install_zabbix = 'yum install -y zabbix-server-mysql zabbix-web-mysql mariadb-server'
+Install_zabbix = 'yum install --enablerepo=zabbix -y zabbix-server-mysql zabbix-agent zabbix-web-mysql mariadb-server'
 
 #初始化mysql密码,如修改需同时修改 DB_con 以及print密码
 Initialization_passwd = 'mysqladmin -u root password root'
@@ -60,9 +63,9 @@ def install():
     # print('设置mysql...')
     os.system('systemctl start mariadb')
     os.system(Initialization_passwd)
-    # print('mysql账号密码是：\n \033[1;31;40m root root \033[0m ''\n')
-    # print('zabbix库账号密码是：\n \033[1;31;40m zabbix iamadmin \033[0m ''\n 请牢记此密码')
-    time.sleep(5)
+    print 'mysql账号密码是：\n \033[1;31;40m root root \033[0m ''\n'
+    print 'zabbix库账号密码是：\n \033[1;31;40m zabbix iamadmin \033[0m ''\n 请牢记此密码'
+ 
 
     # 连接mysql数据库
     DB_con = pymysql.connect('127.0.0.1', 'root', 'root', 'mysql')
@@ -90,17 +93,17 @@ def install():
     os.system('systemctl start zabbix-server zabbix-agent httpd')
     os.system('systemctl enable zabbix-server zabbix-agent httpd')
 def get_ip():
-    '''发起udp协议进程，获取本机 IP'''
+    '''获取本机通讯IP地址'''
     try:
         s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         s.connect(('1.1.1.1', 80))
         ip = s.getsockname()[0]
     finally:
         s.close()
-    print('请使用浏览器打开 \033[1;31;40m http://%s/zabbix \033[0m 进一步配置zabbix web'%ip)
+    print '请使用浏览器打开 \033[1;31;40m http://%s/zabbix \033[0m 进一步配置zabbix web'%ip
 if __name__ == '__main__':
     try:
         install()
-    except Exception as e:
-        print(e)
+    except Exception as err:
+        print err
     get_ip()
