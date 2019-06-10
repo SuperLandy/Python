@@ -9,7 +9,7 @@ sender = '894562039@qq.com'  # 发送邮件名称
 mail_host = "smtp.qq.com"  # 设置服务器
 mail_port = 465  # 设置服务器
 mail_user = "894562039@qq.com"  # QQ邮件登陆名称
-mail_pass = "xtpjsapxfhkgbahh"  # qq邮箱生成的口令
+mail_pass = "xtsxxxxxxxxx"  # qq邮箱生成的口令
 
 def post_email(title, context):
     '''
