@@ -3,6 +3,8 @@
 2.修改sudoers：添加免密码运行权限 zabbix  ALL=(ALL)       NOPASSWD:ALL
 
 3.增加zabbix-agent配置：
+        UnsafeUserParameters=1 # 默认为0，表示不允许自定义key
+	
 	shell脚本
 	UserParameter=mysql_threads,    sudo        /bin/bash      /root/scripts/mysql_threads.sh
         (键值与服务端web上的key配置一样) （sudo命令）  （解释器）      脚本路径
