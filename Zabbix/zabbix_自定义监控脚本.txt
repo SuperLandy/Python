@@ -15,3 +15,5 @@
 5.可在server上使用zabbix_get -s <agent_ip> -k <keyname> 测试
 
 6.脚本需要有执行权限
+
+7.在serverweb出添加监控项，键值为脚本名称。如：mysql_threads
