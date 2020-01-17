@@ -59,7 +59,7 @@ def start_redis(ip):
 if __name__ == '__main__':
 	
 	redis_success = []  #redis端口存活的IP
-	success_list = []   #成功攻击的IP
+	success_list = []   #成功的IP
 	
 	start_ip = str(input('input start ip >>: ')) + '.'
 			
