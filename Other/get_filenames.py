@@ -20,7 +20,7 @@ def rename(): # 遍历所有文件名并重命名
 if __name__ == "__main__":
     files =[]  # 存放所有文件的路径
     root_path = input("请输入路径: ")
-    print('正在获取所有文件名...')
+
     get_files(root_path)
     rename()
     print('所有操作均完成！')
