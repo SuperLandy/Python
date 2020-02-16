@@ -91,7 +91,7 @@ class SolrRce:
             header = {
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/78.0.3904.70 Safari/537.36"
             }
-            cmd_result = requests.get(end_url, headers=header, timeout=5)
+            # cmd_result = requests.get(end_url, headers=header, timeout=5)
             solr_rce_host.append(self.url)
             #print("Url: %s command result: %s" % (self.url, cmd_result.text))
 

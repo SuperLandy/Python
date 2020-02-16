@@ -18,7 +18,7 @@ def run(ip,username,password):
                     username=username, password=password,
                     banner_timeout=3,timeout=3)
         print("ip：%s, 用户名：%s, 密码：%s \n" % (ip, username,password))
-    except paramiko.ssh_exception.AuthenticationException as err:
+    except paramiko.ssh_exception.AuthenticationException:
         pass
     finally:
         ssh.close()
