@@ -1,0 +1,26 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  name: config-dingding
+  namespace: monitoring
+  labels:
+    alertmanagerConfig: wqsp
+spec:
+  route:
+    groupBy: ['job', 'namespace']
+    groupWait: 30s
+    groupInterval: 5m
+    repeatInterval: 12h
+    receiver: 'wqsp-dingding'
+    routes:
+    - match:
+        receiver: 'Watchdog'
+      receiver: 'wqsp-dingding'
+    - match:
+        severity: 'Critical'
+      receiver: 'wqsp-dingding'
+  receivers:
+  - name: 'wqsp-dingding'
+    webhookConfigs:
+    - url: 'http://dingding-hook:5000'
+      sendResolved: true
