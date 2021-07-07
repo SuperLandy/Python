@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dingding-hook
+  namespace: monitoring
+spec:
+  ports:
+  - name: hook
+    port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    app: dingding-hook
+  sessionAffinity: None
+  type: ClusterIP
